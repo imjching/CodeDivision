@@ -9,12 +9,12 @@ describe Student, "internationalized" do
     student.name = "John Doe"
     student.save!
     student = Student.find(student.id)
-    student.name.should == "John Doe"
+    expect(student.name).to eq("John Doe")
   end
 
   it "should have an address field" do
     student = Student.new
-    lambda do
+    expect { lambda do
       student.update_attributes(
         :name => "Jane Doe",
         :gender => "female",
@@ -23,11 +23,11 @@ describe Student, "internationalized" do
         :phone => "510-555-1212",
         :address => "123 4th St New York NY 10101"
       )
-    end.should_not raise_error
+    end }.to_not raise_error
   end
 
   it "should contain correct sample data" do
-    Student.where("name = ?", "Karim Bishay").count.should be >= 1
+    expect(Student.where("name = ?", "Karim Bishay").count).to be >= 1
   end
 
 end
