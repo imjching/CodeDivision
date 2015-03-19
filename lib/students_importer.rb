@@ -1,5 +1,6 @@
 require_relative '../app/models/student'
 require_relative '../app/models/teacher'
+require_relative '../app/models/students_teacher'
 
 module StudentsImporter
     def self.import(filename=File.dirname(__FILE__) + "/../db/data/students.csv")
@@ -17,10 +18,17 @@ module StudentsImporter
         end
     end
 
-    def self.link_teacher
+    def self.link_teachers
         Student.all.each do |student|
-            student.teacher = Teacher.find(rand(Teacher.count) + 1)
-            student.save
+            number_of_teachers = rand(10)
+            number_of_teachers.times do
+                begin
+                    student.teachers << Teacher.find(rand(Teacher.count) + 1)
+                    student.save
+                rescue
+                    # do nothing
+                end
+            end
         end
     end
 end

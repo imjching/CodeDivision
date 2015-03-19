@@ -25,7 +25,7 @@ end
 
 desc "populate the test database with sample data"
 task "db:populate" do
-  #StudentsImporter.link_teacher
+  #StudentsImporter.link_teachers
   #StudentsImporter.import
   #TeachersSeeder.import
 end
