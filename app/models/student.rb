@@ -15,16 +15,6 @@ class Student < ActiveRecord::Base
         end
     end
 
-    def name
-        "#{self.first_name} #{self.last_name}"
-    end
-
-    def name=(value)
-        name = value.split(" ")
-        self.first_name = name[0]
-        self.last_name = name[1]
-    end
-
     def age
         now = Date.today
         age = now.year - self.birthday.year - ((now.month > self.birthday.month || (now.month == self.birthday.month && now.day >= self.birthday.day)) ? 0 : 1)
