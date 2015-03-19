@@ -12,8 +12,8 @@ class CreateCongressMembers < ActiveRecord::Migration
             t.string :party, :limit => 1
             t.string :state, :limit => 2
             t.string :district, :limit => 16
-            t.binary :in_office
-            t.binary :gender
+            t.integer :in_office, :limit => 1
+            t.integer :gender, :limit => 1
             t.string :phone, :limit => 10
             t.string :fax, :limit => 10
             t.string :website
