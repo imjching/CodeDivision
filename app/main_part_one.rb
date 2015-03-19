@@ -1,4 +1,4 @@
-require_relative 'models/CongressMember.rb'
+require_relative 'models/CongressMember'
 
 def members_state_order_by_last_name(input_state)
     results = ""
