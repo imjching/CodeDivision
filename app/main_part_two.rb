@@ -3,6 +3,10 @@ require 'twitter'
 require 'nokogiri'
 
 require_relative 'models/CongressMember'
+require_relative 'models/Sen'
+require_relative 'models/Rep'
+require_relative 'models/Com'
+require_relative 'models/Del'
 require_relative 'models/Tweet'
 
 # Load Twitter OAuth Settings

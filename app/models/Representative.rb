@@ -1,4 +1,0 @@
-class Representative < CongressMember
-
-
-end
