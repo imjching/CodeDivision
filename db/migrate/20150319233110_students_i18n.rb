@@ -5,7 +5,6 @@ class StudentsI18n < ActiveRecord::Migration
         add_column :students, :name, :string, limit: 64
         add_column :students, :address, :string
 
-
         reversible do |dir|
             dir.up do
                 Student.all.each do |student|
@@ -23,9 +22,7 @@ class StudentsI18n < ActiveRecord::Migration
             end
         end
 
-
-
-        remove_column :students, :first_name, :string
-        remove_column :students, :last_name, :string
+        remove_column :students, :first_name, :string, limit: 32
+        remove_column :students, :last_name, :string, limit: 32
     end
 end
