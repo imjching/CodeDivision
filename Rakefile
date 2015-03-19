@@ -25,9 +25,9 @@ end
 
 desc "populate the test database with sample data"
 task "db:populate" do
-  #StudentsImporter.link_teachers
-  #StudentsImporter.import
-  #TeachersSeeder.import
+    TeachersSeeder.import
+    StudentsImporter.import
+    StudentsImporter.link_teachers
 end
 
 desc 'Retrieves the current schema version number'

@@ -7,6 +7,8 @@ module StudentsImporter
         field_names = nil
         Student.transaction do
             File.open(filename).each do |line|
+                line.gsub!(",male,", ",1,")
+                line.gsub!(",female,", ",0,")
                 data = line.chomp.split(',')
                 if field_names.nil?
                     field_names = data
