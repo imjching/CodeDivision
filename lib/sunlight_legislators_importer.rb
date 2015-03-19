@@ -1,14 +1,17 @@
 require 'csv'
+require_relative '../app/models/CongressMember'
 
 class SunlightLegislatorsImporter
-  def self.import(filename)
-    csv = CSV.new(File.open(filename), :headers => true)
-    csv.each do |row|
-      row.each do |field, value|
-        # TODO: begin
-        raise NotImplementedError, "TODO: figure out what to do with this row and do it!"
-        # TODO: end
-      end
+  def self.import(filename=File.dirname(__FILE__) + "/../db/data/legislators.csv")
+    CongressMember.transaction do
+        csv = CSV.new(File.open(filename), :headers => true, :header_converters => :symbol).map(&:to_hash)
+        csv.each do |row|
+            row[:gender] = row[:gender] == "M" ? "1" : "0"
+            row[:phone] = row[:phone].gsub("-", "")
+            row[:fax] = row[:fax].gsub("-", "")
+            row[:birthdate] = row[:birthdate].gsub("/", "-")
+            CongressMember.create!(row)
+        end
     end
   end
 end
