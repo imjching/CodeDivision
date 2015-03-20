@@ -9,8 +9,9 @@ class TasksView
     def self.flash(message, condition = nil)
         if condition.nil?
             puts message
-            return
+        elsif condition
+            puts "Error: #{message}"
+            exit
         end
-        raise "Error: #{message}" if condition
     end
 end
