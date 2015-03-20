@@ -1,3 +1,10 @@
 require_relative 'config/application'
+require_relative 'app/controllers/TasksController'
 
-puts "Put your application code in #{File.expand_path(__FILE__)}"
+class Todo
+    def self.run(args)
+
+    end
+end
+
+Todo.run(ARGV)

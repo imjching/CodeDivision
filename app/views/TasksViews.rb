@@ -1,0 +1,3 @@
+class TasksViews
+
+end
