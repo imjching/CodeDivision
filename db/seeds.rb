@@ -1,5 +1,5 @@
 require 'faker'
-require_relative '../app/config/application'
+require_relative '../config/application'
 
 Task.transaction do
     10.times do
