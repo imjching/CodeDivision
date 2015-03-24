@@ -1,23 +1,15 @@
-<div class="container">
-  <h1>Welcome to Sinatra!</h1>
-  <p>Hello, world!</p>
-
-  <table>
+<h1>Categories</h1>
+<table class="table table-striped">
+  <thead>
     <tr>
-      <th>File Description</th>
-      <th>File Location</th>
+      <th>Category</th>
+      <th>Number of Posts</th>
+      <th>Created At</th>
     </tr>
-    <tr>
-      <td>This view file</td>
-      <td><code><%= __FILE__.gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-    <tr>
-      <td>The layout file</td>
-      <td><code><%= File.expand_path('../layout.erb', __FILE__).gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-    <tr>
-      <td>The current controller</td>
-      <td><code><%= File.expand_path('../../controllers/index.rb', __FILE__).gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-  </table>
-</div>
+  </thead>
+  <tbody>
+    <% @cat.each do |x| %>
+      <tr><td><a href="/categories/<%= x.slug %>"><%= x.name %></a></td><td><%= x.posts.length %></td><td><%= x.created_at %></tr>
+    <% end %>
+  </tbody>
+</table>
