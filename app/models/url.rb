@@ -4,7 +4,7 @@ URI_LENGTH = 7
 
 class Url < ActiveRecord::Base
   before_save :generate_short_uri
-  validates :redirect_url, presence: true, format: URI::regexp(%w(http https))
+  validates :redirect_url, uniqueness: true, presence: true, format: URI::regexp(%w(http https))
 
   def url_visit
     self.click_count += 1
