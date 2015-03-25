@@ -117,3 +117,21 @@ def render_json(response)
   content_type :json
   response.to_json
 end
+
+# Some issues to think about:
+# - Having different titles which generates the same slug. (Same goes to Categories as well.)
+# - Using byebug to debug
+
+# Optimizations that can be done:
+# 1. (if @cat.nil?) replaced with (unless @cat)
+#
+# 2. if params[:category].nil? || params[:title].nil?...
+#    - Letting the ActiveRecord to do the work. Set `name` attribute in form inputs
+#      as post[category], post[title], post[content]...
+#    - Then, do Post.create!(params[post]) with begin/rescue
+#
+# 3. Validation errors can be retrieved through ActiveModel::Errors
+#    - errors.full_messages
+#
+# 4. ActiveRecord::Dirty solves (@post.save if modified)
+#    - Can be shortened using (@post.save if @post.changed?)
