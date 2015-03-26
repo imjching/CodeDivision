@@ -29,7 +29,7 @@ get '/users/:id/edit' do |id|
   erb :edit_user
 end
 
-# Edit user
+# Update user
 post '/users/:id' do |id|
   redirect_with_flash("/login", "danger", "Access forbidden! Please login to continue.") if !logged_in?
   redirect_with_flash("/", "danger", "Permission denied!") if id.to_i != current_user.id

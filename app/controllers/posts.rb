@@ -61,6 +61,7 @@ post '/posts/:slug' do |s|
     end
     modified = true
   end
+
   if modified
     @post.save
     redirect_with_flash("/posts/#{s}", "success", "You have successfully saved the post!")
