@@ -1,6 +1,15 @@
 require 'json'
 
 helpers do
+
+  def redirect_success(url, message)
+    redirect_with_flash(url, "success", message)
+  end
+
+  def redirect_error(url, message)
+    redirect_with_flash(url, "danger", message)
+  end
+
   def redirect_with_flash(url, type, message)
     session[:flash_type] = type
     session[:flash_message] = message

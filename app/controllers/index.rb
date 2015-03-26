@@ -1,18 +1,15 @@
+# Default route for public
 get '/' do
-  if logged_in?
-    redirect to '/dashboard'
-  end
-  #redirect_with_flash("/login", "warning", "Please sign in to proceed!")
-  @users = User.all.order(:created_at)
-  @tags = Tag.all.group(:name).count
+  redirect to '/dashboard' if logged_in?
+  @users = User.order(:created_at)
+  @tags = Tag.group(:name).count
   erb :index
 end
 
-# Show me all posts
-# Tabbed to create post/edit post/view my own post, view other users
+# Default route for users
 get '/dashboard' do
-  redirect_with_flash("/login", "danger", "Access forbidden! Please login to continue.") if !logged_in?
+  redirect_error("/login", "Access forbidden! Please login to continue.") if !logged_in?
   @users = User.where.not(id: current_user.id).order(:created_at)
-  @tags = Tag.all.group(:name).count
+  @tags = Tag.group(:name).count
   erb :dashboard
 end

@@ -1,8 +1,7 @@
 class Post < ActiveRecord::Base
   before_save :generate_slug
   belongs_to :user
-  has_many :posts_tags
-  has_many :tags, through: :posts_tags
+  has_many :tags, dependent: :destroy
 
   validates :title, uniqueness: { scope: :user_id, message: "already exists" },
                     presence: true, length: { minimum: 4, maximum: 32 },
@@ -15,9 +14,7 @@ class Post < ActiveRecord::Base
 
   def get_tags_string
     string = ""
-    self.tags.each do |x|
-      string << x.name << ","
-    end
-    string[0, string.length - 1]
+    tags.each { |x| string << x.name << "," }
+    string[0...-1]
   end
 end

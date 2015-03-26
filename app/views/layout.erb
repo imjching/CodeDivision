@@ -51,7 +51,17 @@
   </nav>
   <div class="container">
     <% if has_flash? %>
-    <div class="alert alert-<%= current_flash_type %>" role="alert"><%= current_flash %></div>
+    <div class="alert alert-<%= current_flash_type %>" role="alert">
+    <% if current_flash.kind_of?(Array) %>
+    <ul>
+    <% current_flash.each do |x| %>
+    <li><%= x %></li>
+    <% end %>
+    </ul>
+    <% else %>
+    <%= current_flash %>
+    <% end %>
+    </div>
     <% clear_flash; end %>
     <%= yield %>
     <hr>
