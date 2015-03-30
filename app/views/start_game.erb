@@ -1,0 +1,44 @@
+<div class="alert alert-success" role="alert">Good luck!<br>Note that your game session will be disconnected when you change page</div>
+<table class="racer_table">
+  <tr id="player1_strip">
+    <td class="active"></td>
+  </tr>
+  <tr id="player2_strip">
+    <td class="active"></td>
+  </tr>
+</table>
+<form id="end_game" action="/end_game" method="post">
+  <input type="hidden" id="player1_position" name="player1_position">
+  <input type="hidden" id="player2_position" name="player2_position">
+</form>
+<script>
+var game_status = 0; // 0 = start, 1 = stop
+
+$(document).ready(function() {
+  $(document).on('keyup', function(event) {
+    var code = event.keyCode || event.which;
+    if (code == 81) { // Q, Player 1
+      increase_player_position('player1');
+    } else if (code == 80) { // P, Player 2
+      increase_player_position('player2');
+    }
+  });
+
+  function increase_player_position(player_name) {
+    if (game_status != 0) {
+      return;
+    }
+    var player = $('#' + player_name + '_strip');
+    var position = $('#' + player_name + '_strip td').length;
+    if (position > 56) {
+      game_status = 1;
+      swal("Congratulations!", 'Player ' + (player_name.indexOf("1") > -1 ? "1" : "2") + ' has won!!', "success")
+      $('#end_game #player1_position').val($('#player1_strip td').length)
+      $('#end_game #player2_position').val($('#player2_strip td').length)
+      $('#end_game').submit();
+    } else {
+      player.prepend('<td></td>');
+    }
+  }
+});
+</script>
