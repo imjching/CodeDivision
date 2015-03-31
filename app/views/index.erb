@@ -11,6 +11,7 @@
       <th>Player 1</th>
       <th>Player 2</th>
       <th>Winnner</th>
+      <th>Time taken (seconds)</th>
       <th></th>
     </tr>
   </thead>
@@ -26,6 +27,7 @@
       <td><%= game.get_player_one %></td>
       <td><%= game.get_player_two %></td>
       <td><%= game.winner %></td>
+      <td><%= game.time_taken %></td>
       <td><a href="/replay/<%= game.id %>" type="button" class="btn btn-warning btn-xs">Replay</button></td>
     </tr>
   <% end %>
