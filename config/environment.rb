@@ -18,9 +18,10 @@ require 'logger'
 require 'sinatra'
 require 'sinatra/flash'
 require 'sinatra_more/markup_plugin'
-require 'sinatra_more/warden_plugin'
+require 'sinatra_more/routing_plugin'
 
 require 'erb'
+require 'bcrypt'
 if development?
   require 'sinatra/reloader'
   require 'better_errors'
@@ -34,8 +35,7 @@ APP_NAME = APP_ROOT.basename.to_s
 
 # Set up Sinatra More
 register SinatraMore::MarkupPlugin
-register SinatraMore::WardenPlugin
-#register SinatraMore::RoutingPlugin
+register SinatraMore::RoutingPlugin
 
 # Set up Better Errors
 configure :development do
@@ -50,3 +50,18 @@ Dir[APP_ROOT.join('app', 'helpers', '*.rb')].each { |file| require file }
 
 # Set up the database and models
 require APP_ROOT.join('config', 'database')
+
+# Monkey patch for strong parameters
+class Hash
+  def require(key)
+    self[key].presence || raise("Parameters missing! (Ref: #{key})")
+  end
+
+  def permit(*filters)
+    params = self.class.new
+    filters.each do |filter|
+      params[filter] = self[filter] if has_key?(filter)
+    end
+    params
+  end
+end

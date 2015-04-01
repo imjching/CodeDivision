@@ -5,10 +5,9 @@ gem 'pg'
 
 # Sinatra driver
 gem 'sinatra'
-gem 'sinatra-contrib'
-gem 'sinatra-flash'
-gem 'sinatra_more'
-gem 'warden'
+gem 'sinatra-contrib' # for reloader
+gem 'sinatra-flash' # for flash
+gem 'sinatra_more' # for helper methods
 
 # Use Thin for our web server
 gem 'thin'
@@ -18,6 +17,7 @@ gem 'activerecord'
 
 gem 'rake'
 gem 'shotgun'
+gem 'bcrypt'
 
 group :development do
   gem 'better_errors'
