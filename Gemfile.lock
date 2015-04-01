@@ -16,9 +16,18 @@ GEM
       tzinfo (~> 1.1)
     arel (6.0.0)
     backports (3.6.4)
+    better_errors (2.1.1)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+      rack (>= 0.9.0)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     builder (3.2.2)
+    coderay (1.1.0)
     daemons (1.2.2)
+    debug_inspector (0.0.2)
     diff-lcs (1.2.5)
+    erubis (2.7.0)
     eventmachine (1.0.7)
     faker (1.4.3)
       i18n (~> 0.5)
@@ -74,6 +83,8 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   activesupport
+  better_errors
+  binding_of_caller
   faker
   pg
   rake

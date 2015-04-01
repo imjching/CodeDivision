@@ -19,11 +19,19 @@ require 'sinatra'
 require "sinatra/reloader" if development?
 
 require 'erb'
+require 'better_errors' if development?
 
 # Some helper constants for path-centric logic
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
 
 APP_NAME = APP_ROOT.basename.to_s
+
+# Set up Better Errors
+configure :development do
+  use BetterErrors::Middleware
+  BetterErrors.application_root = File.expand_path('..', __FILE__)
+  BetterErrors::Middleware.allow_ip! '192.168.0.0/16'
+end
 
 # Set up the controllers and helpers
 Dir[APP_ROOT.join('app', 'controllers', '*.rb')].each { |file| require file }
