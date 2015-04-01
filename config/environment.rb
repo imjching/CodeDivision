@@ -16,17 +16,26 @@ require 'active_record'
 require 'logger'
 
 require 'sinatra'
-require "sinatra/reloader" if development?
 require 'sinatra/flash'
+require 'sinatra_more/markup_plugin'
+require 'sinatra_more/warden_plugin'
 
 require 'erb'
-require 'better_errors' if development?
-require 'byebug' if development?
+if development?
+  require 'sinatra/reloader'
+  require 'better_errors'
+  require 'byebug'
+end
 
 # Some helper constants for path-centric logic
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
 
 APP_NAME = APP_ROOT.basename.to_s
+
+# Set up Sinatra More
+register SinatraMore::MarkupPlugin
+register SinatraMore::WardenPlugin
+#register SinatraMore::RoutingPlugin
 
 # Set up Better Errors
 configure :development do
