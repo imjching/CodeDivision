@@ -54,7 +54,8 @@ require APP_ROOT.join('config', 'database')
 # Monkey patch for strong parameters
 class Hash
   def require(key)
-    self[key].presence || raise("Parameters missing! (Ref: #{key})")
+    self.symbolize_keys!
+    self[key].presence.symbolize_keys! || raise("Parameters missing! (Ref: #{key})")
   end
 
   def permit(*filters)
