@@ -5,7 +5,8 @@ gem 'pg'
 
 # Sinatra driver
 gem 'sinatra'
-gem 'sinatra-contrib'
+gem 'sinatra-contrib' # for reloader
+gem 'sinatra-flash' # for flash
 
 # Use Thin for our web server
 gem 'thin'
