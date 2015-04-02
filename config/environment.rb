@@ -38,3 +38,19 @@ Dir[APP_ROOT.join('app', 'helpers', '*.rb')].each { |file| require file }
 
 # Set up the database and models
 require APP_ROOT.join('config', 'database')
+
+# Monkey patch for strong parameters
+class Hash
+  def require(key)
+    self.symbolize_keys!
+    self[key].presence.symbolize_keys! || raise("Parameters missing! (Ref: #{key})")
+  end
+
+  def permit(*filters)
+    params = self.class.new
+    filters.each do |filter|
+      params[filter] = self[filter] if has_key?(filter)
+    end
+    params
+  end
+end
