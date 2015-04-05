@@ -1,1 +1,16 @@
-TODO: Index page
+<h1>Featured Albums</h1>
+<div class="row">
+<% @albums.each do |album| %>
+  <div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+      <a href="/albums/<%= album.id %>">
+        <img src="<%= album.random_thumb %>" alt="Random thumbnail">
+      </a>
+      <div class="caption">
+        <p><%= album.name %></p>
+        <p>Album by: <a href="/users/<%= album.user_id %>"><%= album.user.full_name %></a></p>
+      </div>
+    </div>
+  </div>
+<% end %>
+</div>
