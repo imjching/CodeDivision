@@ -18,9 +18,13 @@ require 'logger'
 require 'sinatra'
 require 'sinatra/flash'
 require 'sinatra_more/markup_plugin'
+require 'sinatra_more/render_plugin'
 
 require 'erb'
 require 'bcrypt'
+require 'carrierwave'
+require 'carrierwave/orm/activerecord'
+require 'carrierwave/processing/rmagick'
 
 if development?
   require 'sinatra/reloader'
@@ -34,10 +38,22 @@ APP_NAME = APP_ROOT.basename.to_s
 
 # Set up Sinatra More
 register SinatraMore::MarkupPlugin
+register SinatraMore::RenderPlugin
 
-# Set up the controllers and helpers
+# Set up CarrierWave
+CarrierWave.configure do |config|
+  config.permissions = 0666
+  config.directory_permissions = 0777
+  config.storage = :file
+  config.root = APP_ROOT + 'public/'
+  config.store_dir = 'uploads/'
+end
+CarrierWave::SanitizedFile.sanitize_regexp = /[^[:word:]\.\-\+]/
+
+# Set up the controllers, helpers, and uploaders
 Dir[APP_ROOT.join('app', 'controllers', '*.rb')].each { |file| require file }
 Dir[APP_ROOT.join('app', 'helpers', '*.rb')].each { |file| require file }
+Dir[APP_ROOT.join('app', 'uploaders', '*.rb')].each { |file| require file }
 
 # Set up the database and models
 require APP_ROOT.join('config', 'database')

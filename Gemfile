@@ -18,6 +18,8 @@ gem 'activerecord'
 gem 'rake'
 gem 'shotgun'
 gem 'bcrypt'
+gem 'carrierwave'
+gem 'rmagick'
 
 group :development do
   gem 'byebug'
