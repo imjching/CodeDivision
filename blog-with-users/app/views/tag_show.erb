@@ -1,0 +1,16 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Posts with tag: <%= @tags.first.name %></h3>
+  </div>
+  <div class="panel-body">
+    <dl id="posts_list">
+      <% @tags.each do |t| %>
+      <% p = t.post %>
+      <dt><a href="/posts/<%= p.slug %>"><%= p.title %></a></dt>
+      <dd><strong>Author:</strong> <%= p.user.full_name %></dd>
+      <dd><strong>Tags:</strong> <%= p.get_tags_string %></dd>
+      <dd><%= p.content[0, 150] %>...</dd><br>
+      <% end %>
+    </dl>
+  </div>
+</div>
