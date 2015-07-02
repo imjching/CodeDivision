@@ -1,0 +1,2 @@
+class Rep < CongressMember
+end

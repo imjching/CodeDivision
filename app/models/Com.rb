@@ -1,2 +1,0 @@
-class Com < CongressMember
-end

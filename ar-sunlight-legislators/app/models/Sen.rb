@@ -1,0 +1,2 @@
+class Sen < CongressMember
+end

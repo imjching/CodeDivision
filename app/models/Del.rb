@@ -1,2 +1,0 @@
-class Del < CongressMember
-end
