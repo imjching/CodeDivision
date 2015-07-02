@@ -1,0 +1,15 @@
+<h1>Categories</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Number of Posts</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cat.each do |x| %>
+      <tr><td><a href="/categories/<%= x.slug %>"><%= x.name %></a></td><td><%= x.posts.length %></td><td><%= x.created_at %></tr>
+    <% end %>
+  </tbody>
+</table>
