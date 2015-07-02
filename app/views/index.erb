@@ -1,0 +1,54 @@
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+  <li><a data-toggle="tab" href="#tags">Available tags</a></li>
+</ul>
+<div class="tab-content">
+  <div id="home" class="tab-pane fade in active">
+    <h3>All Users</h3>
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <td><strong>Name</strong></td>
+          <td><strong>Number of posts</td></strong></td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @users.empty? %>
+        <tr><td>No other users to display!</td><td></td><td></td></tr>
+        <% end %>
+        <% @users.each do |x| %>
+        <tr>
+          <td><%= x.full_name %></td>
+          <td><%= x.posts.count %></td>
+          <td><a href="/users/<%= x.id %>" class="btn btn-info btn-xs">View posts</a></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div id="tags" class="tab-pane fade">
+    <h3>All tags</h3>
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <td><strong>Tag</strong></td>
+          <td><strong>Number of posts</td></strong></td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @tags.empty? %>
+        <tr><td>No tags to display!</td><td></td><td></td></tr>
+        <% end %>
+        <% @tags.each do |k, v| %>
+        <tr>
+          <td><%= k %></td>
+          <td><%= v %></td>
+          <td><a type="button" class="btn btn-info btn-xs" href="/tag/<%= k %>">View Posts</a></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<form action="/posts/<%= @post.slug %>" method="post">
+  <div class="form-group">
+    <label class="control-label">Title:</label>
+    <input class="form-control" type="text" placeholder="<%= @post.title %>" disabled>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Content:</label>
+    <textarea class="form-control" name="form[content]" rows="8"><%= @post.content %></textarea>
+  </div>
+   <div class="form-group">
+    <label class="control-label">Enter tags (enter for next)</label><br>
+    <input type="text" class="form-control" name="tags" value="<%= @post.get_tags_string %>"data-role="tagsinput">
+  </div>
+  <input name="_method" type="hidden" value="patch">
+  <div class="modal-footer">
+    <a type="button" class="btn btn-default" href="/posts/<%= @post.slug %>">Back to post</a>
+    <button type="submit" id="create_post" class="btn btn-primary">Save post</button>
+  </div>
+</form>
