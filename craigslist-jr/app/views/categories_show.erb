@@ -1,0 +1,175 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active"><%= @cat.name %></li>
+</ol>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Posts</h3>
+  </div>
+  <div class="panel-body">
+    <dl id="posts_list">
+      <% if @posts.empty? %>
+        <dt>No posts to display.</dt>
+      <% end %>
+      <% @posts.each do |p| %>
+        <dt><a href="/posts/<%= p.slug %>"><%= p.title %></a></dt>
+        <dd><%= p.author_email %> (<%= p.author_key %>)</dd>
+        <dd><%= p.content[0, 150] %>...</dd><br>
+      <% end %>
+    </dl>
+  </div>
+</div>
+
+<p class="text-center">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#submitModal">Create a new post</button>
+</p>
+
+
+<div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Create a new post</h4>
+            </div>
+            <div class="modal-body">
+              <form id="submitForm" action="/posts">
+                <div class="form-group">
+                  <label class="control-label">Category: <%= @cat.name %></label>
+                  <input type="hidden" name="category" value="<%= @cat.name %>">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Title:</label>
+                  <input type="text" class="form-control" name="title">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Content:</label>
+                  <textarea class="form-control" name="content"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Email:</label>
+                  <input type="text" class="form-control" name="email">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" id="create_post" class="btn btn-primary">Create post</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="Submitted!" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+              <div class="alert alert-success" role="alert">
+                <strong>Post submitted!</strong> Please note your secret key down!
+              </div>
+              <p>You can edit your post anytime by visiting this <span class="url"></span>,<br>
+              or using this <strong><span class="key"></span></strong> as secret key.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#submitForm').formValidation({
+        framework: 'bootstrap',
+        icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            title: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    },
+                    stringLength: {
+                        min: 4,
+                        max: 32,
+                        message: 'The title must be more than 3 and less than 32 characters long'
+                    },
+                    regexp: {
+                        regexp: /[a-zA-Z0-9_\.]+/,
+                        message: 'The title can only consist of alphabetical, number, dot and underscore'
+                    }
+                }
+            },
+            content: {
+                validators: {
+                    notEmpty: {
+                        message: 'The content is required'
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'The email is required'
+                    },
+                    regexp: {
+                        regexp: /[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}/,
+                        message: 'A valid email is required'
+                    }
+                }
+            }
+        }
+    });
+    $('#submitForm').on('success.form.fv', function(e) {
+        e.preventDefault();
+
+        var $form = $(e.target),
+            fv    = $form.data('formValidation');
+        console.log($form.serialize());
+        $.ajax({
+          url: $form.attr('action'),
+          type: 'POST',
+          dataType: 'json',
+          data: $form.serialize(),
+          success: function(result) {
+            console.log(JSON.stringify(result));
+            if (result.success) {
+               $('#submitModal')
+                .one('hidden.bs.modal', function() {
+                  $('#successModal')
+                    .find('.title').html(result.title).end()
+                    .find('.url').html("<a href=\"/posts/" + result.slug + "/edit?id=" + result.id + "\">link</a>").end()
+                    .find('.key').html(result.id).end()
+                    .modal('show');
+                }).modal('hide');
+                $("<dt><a href=\"/posts/" + result.slug + "\">" + result.title + "</a></dt><dd>" + result.author_email + " (" + result.id + ")</dd><dd>" + result.content_simplified + "...</dd><br>").appendTo("#posts_list");
+            } else {
+              $('#create_post').removeAttr('disabled').removeClass("disabled");
+              swal({
+                title: 'Error!',
+                text: result.message,
+                type: 'error',
+                confirmButtonColor: '#DD6B55',
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'Close'
+              });
+            }
+          }
+        });
+
+        // var validator = $(e.target).data('formValidation');
+        // $('#submitModal')
+        //     .one('hidden.bs.modal', function() {
+        //         $('#successModal').find('.title').html(validator.getFieldElements('title').val()).end().modal('show');
+        //     })
+        //     .modal('hide');
+    });
+    $('#submitModal').on('shown.bs.modal', function() {
+        $('#submitForm').formValidation('resetForm', true).find('[name="title"]').focus();
+    });
+});
+</script>
