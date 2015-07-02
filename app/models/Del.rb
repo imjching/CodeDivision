@@ -1,0 +1,2 @@
+class Del < CongressMember
+end
