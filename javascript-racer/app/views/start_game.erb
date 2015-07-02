@@ -1,0 +1,69 @@
+<div class="alert alert-success" role="alert">Good luck!<br>Note that your game session will be disconnected when you change page</div>
+<table class="racer_table">
+  <tr id="player1_strip">
+    <td class="active"></td>
+  </tr>
+  <tr id="player2_strip">
+    <td class="active"></td>
+  </tr>
+</table>
+<form id="end_game" action="/end_game" method="post">
+  <input type="hidden" id="player1_position" name="player1_position">
+  <input type="hidden" id="player2_position" name="player2_position">
+</form>
+<script>
+$(document).ready(function() {
+  function Player(name, key) {
+    this.name = name;
+    this.key = key;
+    this.location = 1;
+  }
+
+  Player.prototype.move = function() {
+    $('#' + this.name + '_strip').prepend('<td></td>');
+    this.location = $('#' + this.name + '_strip td').length;
+  }
+
+  function Game(p1, p2) {
+    this.p1 = p1;
+    this.p2 = p2;
+    this.status = 0; // 0 = start, 1 = stop
+  }
+
+  Game.prototype.onKeyUp = function(code) {
+    if (this.status != 0) {
+      return;
+    }
+    if (code == this.p1.key) { // Q, Player 1
+      this.p1.move();
+      if (this.p1.location > 56) {
+        this.status = 1;
+        swal("Congratulations!", 'Player 1 has won!!', "success");
+        submitForm();
+      }
+    } else if (code == this.p2.key) { // P, Player 2
+      this.p2.move();
+      if (this.p2.location > 56) {
+        this.status = 1;
+        swal("Congratulations!", 'Player 2 has won!!', "success");
+        submitForm();
+      }
+    }
+  };
+
+  var player1 = new Player("player1", 81);
+  var player2 = new Player("player2", 80);
+  var game = new Game(player1, player2);
+
+  function submitForm() {
+    $('#end_game #player1_position').val(game.p1.location);
+    $('#end_game #player2_position').val(game.p2.location);
+    $('#end_game').submit();
+  }
+
+  $(document).on('keyup', function(event) {
+    var code = event.keyCode || event.which;
+    game.onKeyUp(code);
+  });
+});
+</script>

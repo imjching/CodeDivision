@@ -1,0 +1,62 @@
+<div class="alert alert-warning" role="alert">Welcome to JavaScript Racer!</div>
+<div class="text-center ">
+  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#startGame">Start a new game</button>
+</div>
+<br>
+<h3>Game Records</h3>
+<table class="table table-condensed table-hover">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Player 1</th>
+      <th>Player 2</th>
+      <th>Winnner</th>
+      <th>Time taken (seconds)</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% if @games.empty? %>
+    <tr>
+      <td colspan="4">No game records found!</td>
+    </tr>
+  <% else %>
+  <% @games.each do |game| %>
+    <tr>
+      <th scope="row"><%= game.id %></th>
+      <td><%= game.get_player_one %></td>
+      <td><%= game.get_player_two %></td>
+      <td><%= game.winner %></td>
+      <td><%= game.time_taken %></td>
+      <td><a href="/replay/<%= game.id %>" type="button" class="btn btn-warning btn-xs">Replay</button></td>
+    </tr>
+  <% end %>
+  <% end %>
+  </tbody>
+</table>
+<div class="modal fade" id="startGame" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Create a new game</h4>
+            </div>
+            <div class="modal-body">
+              <form action="/new_game" method="post">
+                <div class="form-group">
+                  <label class="control-label">Player 1 Initials:</label>
+                  <input type="text" class="form-control" name="player1">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Player 2 Initials:</label>
+                  <input type="text" class="form-control" name="player2">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Start game</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
