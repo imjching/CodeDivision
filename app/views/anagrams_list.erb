@@ -1,0 +1,11 @@
+<p>Show a list of anagrams for <mark><%= @user_input %></mark></p>
+<ul>
+<% if @param.nil? %>
+  <li>No anagrams found!</li>
+<% else %>
+  <% @param.anagrams.each do |a| %>
+    <li><%= a.name %></li>
+  <% end %>
+<% end %>
+</ul>
+<%= erb :form %>
