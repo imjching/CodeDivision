@@ -20,7 +20,7 @@ This repository is a collection of the challenges and projects I've written thro
 
 Live demo: http://pssttme.herokuapp.com/ . 
 
-This project was then converted into a start-up which can be seen at [Psstt.me's Official Website](https://psstt.me)
+This project was then converted into a start-up which can be seen [here](https://pssttme-beta.herokuapp.com/)
 
 ### Extra
 Throughout my journey of this bootcamp, I've experienced issues with installing Ruby as well as Rails on a Windows machine. Hence, I've created a `box` for Vagrant. 
